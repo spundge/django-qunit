@@ -2,8 +2,8 @@
 <html>
 <head>
 	<title>QUnit Test Suite</title>
-  <link rel="stylesheet" href="{% url qunit_css %}" type="text/css" media="screen">
-  <script type="text/javascript" src="{% url qunit_js %}"></script>
+  <link rel="stylesheet" href="{{STATIC_URL}}/js-tests/qunit/qunit.css" type="text/css" media="screen">
+  <script type="text/javascript" src="{{STATIC_URL}}/js-tests/qunit/qunit.css"></script>
   {% for url in suite.extra_urls %}
     <script type="text/javascript" src="{{ url }}"></script>
   {% endfor %}
@@ -31,5 +31,6 @@
   {% endif %}
 	<h2 id="qunit-userAgent"></h2>
 	<ol id="qunit-tests"></ol>
+    <div id="quunit-fixture"></div>
 </body>
 </html>
