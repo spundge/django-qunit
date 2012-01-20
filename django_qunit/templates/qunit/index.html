@@ -6,11 +6,11 @@
     <link rel="stylesheet" href="{{ qunit_url }}/qunit.css" type="text/css" media="screen">
     <script type="text/javascript" src="{{ qunit_url }}/qunit.js"></script>
 
-    {% for url in suite.extra_urls %}
+    {% for url in suite.absolute_urls %}
     <script type="text/javascript" src="{{ url }}"></script>
     {% endfor %}
-    {% for url in suite.extra_media_urls %}
-    <script type="text/javascript" src="{{ MEDIA_URL }}{{ url }}"></script>
+    {% for url in suite.static_urls %}
+    <script type="text/javascript" src="{{ STATIC_URL }}{{ url }}"></script>
     {% endfor %}
     {% for file in files %}
     <script type="text/javascript" src="{% url qunit_test file %}"></script>

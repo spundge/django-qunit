@@ -18,8 +18,8 @@ def get_suite_context(request, path):
         suite['name'] = ''.join(pieces[-2])
 
     # defaults
-    suite['extra_urls'] = []
-    suite['extra_media_urls'] = []
+    suite['absolute_urls'] = []
+    suite['static_urls'] = []
 
     # load suite.json if present
     if 'suite.json' in files:
