@@ -3,9 +3,11 @@
 <head>
 	<title>QUnit Test Suite</title>
 
-    <link rel="stylesheet" href="{{ qunit_url }}/qunit.css" type="text/css" media="screen">
-    <script type="text/javascript" src="{{ qunit_url }}/qunit.js"></script>
-
+    <link rel="stylesheet" href="{{ qunit_url }}qunit.css" type="text/css" media="screen">
+    <script type="text/javascript" src="{{ qunit_url }}qunit.js"></script>
+    {% for file in suite.qunit_files%}
+    <script type="text/javascript" src="{{ qunit_url }}{{ file }}"></script>
+    {% endfor %}
     {% for url in suite.absolute_urls %}
     <script type="text/javascript" src="{{ url }}"></script>
     {% endfor %}

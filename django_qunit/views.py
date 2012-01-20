@@ -18,6 +18,7 @@ def get_suite_context(request, path):
         suite['name'] = ''.join(pieces[-2])
 
     # defaults
+    suite['qunit_files'] = []
     suite['absolute_urls'] = []
     suite['static_urls'] = []
 
