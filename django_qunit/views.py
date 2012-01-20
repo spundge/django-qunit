@@ -39,9 +39,9 @@ def get_suite_context(request, path):
         'suite': suite,
     }
 
-def run_tests(request, path):
+def run_tests(request, path, template_name = 'qunit/index.html'):
     suite_context = get_suite_context(request, path)
-    return render(request, 'qunit/index.html', suite_context)
+    return render(request, template_name, suite_context)
 
 def parent_directory(path):
     """
