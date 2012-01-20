@@ -1,5 +1,5 @@
-from django.shortcuts import render_to_response
 from django.conf import settings
+from django.shortcuts import render
 from django.utils import simplejson
 
 import os
@@ -31,15 +31,16 @@ def get_suite_context(request, path):
 
     return {
         'files': [path + file for file in files if file.endswith('js')],
-        'previous_directory': previous_directory,
         'in_subdirectory': True and (previous_directory is not None) or False,
+        'previous_directory': previous_directory,
+        'qunit_path' : settings.QUNIT_URL,
         'subsuites': directories,
         'suite': suite,
     }
 
 def run_tests(request, path):
     suite_context = get_suite_context(request, path)
-    return render_to_response('qunit/index.html', suite_context)
+    return render(request, 'qunit/index.html', suite_context)
 
 def parent_directory(path):
     """
