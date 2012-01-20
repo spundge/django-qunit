@@ -33,7 +33,7 @@ def get_suite_context(request, path):
         'files': [path + file for file in files if file.endswith('js')],
         'in_subdirectory': True and (previous_directory is not None) or False,
         'previous_directory': previous_directory,
-        'qunit_path' : settings.QUNIT_URL,
+        'qunit_url' : settings.QUNIT_URL,
         'subsuites': directories,
         'suite': suite,
     }
