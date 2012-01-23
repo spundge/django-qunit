@@ -15,7 +15,10 @@ def load_configuration(path):
 
 def get_suite_context(path):
     full_path = os.path.join(settings.QUNIT_TEST_DIRECTORY, path)
-    full_path, directories, files = os.walk(full_path).next()
+    path_iterator = os.walk(full_path)
+    full_path, directories, files = path_iterator.next()
+
+    subsuites = [dirpath for dirpath, dirs, files in path_iterator]
 
     suite = {}
 
@@ -41,10 +44,9 @@ def get_suite_context(path):
 
     return {
         'files': [path + file for file in files if file.endswith('js')],
-        'in_subdirectory': previous_directory is not None,
         'previous_directory': previous_directory,
         'qunit_url': settings.QUNIT_URL,
-        'subsuites': directories,
+        'subsuites': subsuites,
         'suite': suite,
     }
 
@@ -56,14 +58,12 @@ def run_tests(request, path, template_name='qunit/index.html'):
 
 def parent_directory(path):
     """
-    Get parent directory. If root, return None
-    "" => None
+    Get parent directory. If root, return ""
+    "" => ""
     "foo/" => "/"
     "foo/bar/" => "foo/"
     """
-    if path == '':
-        return None
-    prefix = '/'.join(path.split('/')[:-2])
-    if prefix != '':
-        prefix += '/'
-    return prefix
+    parent = os.path.dirname(path)
+    if parent and not parent.endswith('/'):
+        parent += '/'
+    return parent

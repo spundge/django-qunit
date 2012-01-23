@@ -4,12 +4,14 @@
 	<title>QUnit Test Suite</title>
 
     <link rel="stylesheet" href="{{ qunit_url }}qunit.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="{{ qunit_url }}addons/qunit-composite.css" type="text/css" media="screen">
 
     {% for url in suite.absolute_urls %}
     <script type="text/javascript" src="{{ url }}"></script>
     {% endfor %}
 
     <script type="text/javascript" src="{{ qunit_url }}qunit.js"></script>
+    <script type="text/javascript" src="{{ qunit_url }}addons/qunit-composite.js"></script>
     {% for file in suite.qunit_files%}
     <script type="text/javascript" src="{{ qunit_url }}{{ file }}"></script>
     {% endfor %}
@@ -20,14 +22,24 @@
     {% for file in files %}
     <script type="text/javascript" src="{% url qunit_test file %}"></script>
     {% endfor %}
+
+    {% if suite.subsuites %}
+    <script type="text/javascript">
+        QUnit.testSuites([]);
+        {% for subsuite in subsuites}
+            "{% url qunit_test subsuite %}"{% if not forloop.last %},{% endif %}
+        {% endfor %}
+        ]);
+    </script>
+    {% endif %}
 </head>
 <body data-base-url="{% url qunit_test '' %}">
     <h1 id="qunit-header">QUnit Test Suite ({{ suite.name|capfirst }})</h1>
     <h2 id="qunit-banner"></h2>
     <div id="qunit-testrunner-toolbar"></div>
-    {% if in_directory or subsuites %}
+    {% if previous_directory or subsuites %}
         <div id="navigation">
-            {% if in_subdirectory %}
+            {% if previous_directory %}
             <a href="{% url qunit_test_overview previous_directory %}">..</a>
             {% endif %}
 
