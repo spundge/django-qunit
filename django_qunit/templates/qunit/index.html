@@ -21,7 +21,7 @@
     <script type="text/javascript" src="{% url qunit_test file %}"></script>
     {% endfor %}
 </head>
-<body>
+<body data-base-url="{% url qunit_test '' %}">
     <h1 id="qunit-header">QUnit Test Suite ({{ suite.name|capfirst }})</h1>
     <h2 id="qunit-banner"></h2>
     <div id="qunit-testrunner-toolbar"></div>
@@ -40,4 +40,7 @@
     <ol id="qunit-tests"></ol>
     <div id="qunit-fixture"></div>
 </body>
+
+
+
 </html>
