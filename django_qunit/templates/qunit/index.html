@@ -19,35 +19,38 @@
     {% for url in suite.static_urls %}
     <script type="text/javascript" src="{{ STATIC_URL }}{{ url }}"></script>
     {% endfor %}
-    {% for file in files %}
-    <script type="text/javascript" src="{% url qunit_test file %}"></script>
-    {% endfor %}
-
+    
     {% if suite.subsuites %}
     <script type="text/javascript">
-        QUnit.testSuites([]);
-        {% for subsuite in subsuites}
-            "{% url qunit_test subsuite %}"{% if not forloop.last %},{% endif %}
+        QUnit.testSuites([
+        {% for subsuite in subsuites %}
+            "{% url qunit_test_overview subsuite %}"{% if not forloop.last %},{% endif %}
         {% endfor %}
         ]);
     </script>
     {% endif %}
+
+    {% for file in files %}
+    <script type="text/javascript" src="{% url qunit_test file %}"></script>
+    {% endfor %}
 </head>
 <body data-base-url="{% url qunit_test '' %}">
     <h1 id="qunit-header">QUnit Test Suite ({{ suite.name|capfirst }})</h1>
     <h2 id="qunit-banner"></h2>
     <div id="qunit-testrunner-toolbar"></div>
-    {% if previous_directory or subsuites %}
-        <div id="navigation">
-            {% if previous_directory %}
-            <a href="{% url qunit_test_overview previous_directory %}">..</a>
-            {% endif %}
+    <div id="navigation">
+        {% if previous_directory != None %}
+        <a href="{% url qunit_test_overview previous_directory %}">Go up</a>
+        {% endif %}
 
-            {% for suite in subsuites %}
-            <a href="{{ suite }}/">{{ suite }}</a>
-            {% endfor %}
-        </div>
-    {% endif %}
+        {% if subsuites %}
+        Subsuites:
+        <br>
+        {% for suite in subsuites %}
+        <a href="{{ suite }}/">{{ suite }}</a><br>
+        {% endfor %}
+        {% endif %}
+    </div>
     <h2 id="qunit-userAgent"></h2>
     <ol id="qunit-tests"></ol>
     <div id="qunit-fixture"></div>

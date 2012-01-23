@@ -18,7 +18,7 @@ def get_suite_context(path):
     path_iterator = os.walk(full_path)
     full_path, directories, files = path_iterator.next()
 
-    subsuites = [dirpath for dirpath, dirs, files in path_iterator]
+    subsuites = [os.path.relpath(walk[0], settings.QUNIT_TEST_DIRECTORY) for walk in path_iterator]
 
     suite = {}
 
@@ -43,7 +43,7 @@ def get_suite_context(path):
     previous_directory = parent_directory(path)
 
     return {
-        'files': [path + file for file in files if file.endswith('js')],
+        'files': [os.path.join(path, file) for file in files if file.endswith('js')],
         'previous_directory': previous_directory,
         'qunit_url': settings.QUNIT_URL,
         'subsuites': subsuites,
@@ -53,17 +53,27 @@ def get_suite_context(path):
 
 def run_tests(request, path, template_name='qunit/index.html'):
     suite_context = get_suite_context(path)
-    return render(request, template_name, suite_context)
+    response =  render(request, template_name, suite_context)
+
+    # When used by qunit-composite, test pages are rendered in iFrames
+    # If the using site is using the X-Frame-Options header set to 'DENY',
+    # this will cause the inclusion to fail. Setting the option to 'SAMEORIGIN'
+    # will make the included iFrame accessible and is usually respected by middlewares
+    # like django-secure.
+    response['X-Frame-Options'] = 'SAMEORIGIN'
+    return response
 
 
 def parent_directory(path):
     """
-    Get parent directory. If root, return ""
-    "" => ""
+    Get parent directory. If root, return None
+    "" => None
     "foo/" => "/"
     "foo/bar/" => "foo/"
     """
-    parent = os.path.dirname(path)
-    if parent and not parent.endswith('/'):
-        parent += '/'
-    return parent
+    if path == '':
+        return None
+    prefix = '/'.join(path.split('/')[:-2])
+    if prefix != '':
+        prefix += '/'
+    return prefix
