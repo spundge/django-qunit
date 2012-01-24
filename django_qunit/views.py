@@ -32,7 +32,7 @@ def get_suite_context(path):
     # defaults
     suite['qunit_files'] = []
     suite['absolute_urls'] = []
-    suite['static_urls'] = []
+    suite['js_files'] = []
 
     # Load base suite configuration
     suite.update(load_configuration(settings.QUNIT_TEST_DIRECTORY))
@@ -46,6 +46,7 @@ def get_suite_context(path):
         'files': [os.path.join(path, file) for file in files if file.endswith('js')],
         'previous_directory': previous_directory,
         'qunit_url': settings.QUNIT_URL,
+        'js_url' : settings.QUNIT_JS_URL,
         'subsuites': subsuites,
         'suite': suite,
     }

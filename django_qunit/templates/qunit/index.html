@@ -16,8 +16,8 @@
     <script type="text/javascript" src="{{ qunit_url }}{{ file }}"></script>
     {% endfor %}
 
-    {% for url in suite.static_urls %}
-    <script type="text/javascript" src="{{ STATIC_URL }}{{ url }}"></script>
+    {% for file in suite.js_files %}
+    <script type="text/javascript" src="{{ js_url }}{{ file }}"></script>
     {% endfor %}
     
     {% if suite.subsuites %}

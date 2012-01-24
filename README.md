@@ -14,6 +14,7 @@ installation
  1. Add 'django_qunit' to your settings.INSTALLED_APPS.
  2. Add settings.QUNIT_TEST_DIRECTORY, containing the path to your javascript files.
  3. Add settings.QUNIT_URL, containing the root url of the QUnit JavaScript and CSS.
+ 4. Add settings.QUNIT_JS_URL, containing the root url of the JavaScript files that can be loaded by the suite configuration.
  3. Add a urlconf to include('django_qunit.urls').
  4. Visit the URL you've included in your urlconf, and it should display QUnit test results.
 
