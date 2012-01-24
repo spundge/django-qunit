@@ -20,7 +20,7 @@
     <script type="text/javascript" src="{{ js_url }}{{ file }}"></script>
     {% endfor %}
     
-    {% if suite.subsuites %}
+    {% if subsuites %}
     <script type="text/javascript">
         QUnit.testSuites([
         {% for subsuite in subsuites %}
