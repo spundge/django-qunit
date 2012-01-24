@@ -3,16 +3,15 @@
 <head>
 	<title>QUnit Test Suite</title>
 
-    <link rel="stylesheet" href="{{ qunit_url }}qunit.css" type="text/css" media="screen">
-    <link rel="stylesheet" href="{{ qunit_url }}addons/qunit-composite.css" type="text/css" media="screen">
+    {% for file in suite.qunit_css_files%}
+    <link rel="stylesheet" href="{{ qunit_url }}{{ file }}" type="text/css" media="screen">
+    {% endfor %}
 
     {% for url in suite.absolute_urls %}
     <script type="text/javascript" src="{{ url }}"></script>
     {% endfor %}
 
-    <script type="text/javascript" src="{{ qunit_url }}qunit.js"></script>
-    <script type="text/javascript" src="{{ qunit_url }}addons/qunit-composite.js"></script>
-    {% for file in suite.qunit_files%}
+    {% for file in suite.qunit_js_files%}
     <script type="text/javascript" src="{{ qunit_url }}{{ file }}"></script>
     {% endfor %}
 
@@ -20,7 +19,7 @@
     <script type="text/javascript" src="{{ js_url }}{{ file }}"></script>
     {% endfor %}
     
-    {% if subsuites %}
+    {% if use_composite %}
     <script type="text/javascript">
         QUnit.testSuites([
         {% for subsuite in subsuites %}

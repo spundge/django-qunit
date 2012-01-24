@@ -20,6 +20,8 @@ def get_suite_context(path):
 
     subsuites = [os.path.relpath(walk[0], settings.QUNIT_TEST_DIRECTORY) for walk in path_iterator]
 
+
+
     suite = {}
 
     # set suite name
@@ -30,7 +32,8 @@ def get_suite_context(path):
         suite['name'] = ''.join(pieces[-2])
 
     # defaults
-    suite['qunit_files'] = []
+    suite['qunit_js_files'] = []
+    suite['qunit_css_files'] = []
     suite['absolute_urls'] = []
     suite['js_files'] = []
 
@@ -39,6 +42,16 @@ def get_suite_context(path):
 
     # load suite configuration
     suite.update(load_configuration(full_path))
+
+    # Load necessary js and css from qunit directory, before any other specified.
+    use_composite = False
+    if subsuites and getattr(settings, 'QUNIT_USE_COMPOSITE', False):
+        suite['qunit_js_files'].insert(0, 'qunit-composite.js')
+        suite['qunit_css_files'].insert(0, 'qunit-composite.css')
+        use_composite = True
+
+    suite['qunit_js_files'].insert(0, 'qunit.js')
+    suite['qunit_css_files'].insert(0, 'qunit.css')
 
     previous_directory = parent_directory(path)
 
@@ -49,6 +62,7 @@ def get_suite_context(path):
         'js_url' : settings.QUNIT_JS_URL,
         'subsuites': subsuites,
         'suite': suite,
+        'use_cmposite' : use_composite,
     }
 
 
