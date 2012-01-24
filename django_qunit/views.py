@@ -62,7 +62,7 @@ def get_suite_context(path):
         'js_url' : settings.QUNIT_JS_URL,
         'subsuites': subsuites,
         'suite': suite,
-        'use_cmposite' : use_composite,
+        'use_composite' : use_composite,
     }
 
 
