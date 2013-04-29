@@ -4,6 +4,7 @@ from django.utils import simplejson
 
 import os
 
+
 def load_configuration(path):
     try:
         file = open(os.path.join(path, 'suite.json'), 'r')
@@ -19,8 +20,6 @@ def get_suite_context(path):
     full_path, directories, files = path_iterator.next()
 
     subsuites = [os.path.relpath(walk[0], settings.QUNIT_TEST_DIRECTORY) for walk in path_iterator]
-
-
 
     suite = {}
 
