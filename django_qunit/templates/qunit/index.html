@@ -1,3 +1,4 @@
+{% load url from future %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,23 +24,23 @@
     <script type="text/javascript">
         QUnit.testSuites([
         {% for subsuite in subsuites %}
-            "{% url qunit_test_overview subsuite %}"{% if not forloop.last %},{% endif %}
+            "{% url 'qunit_test_overview' subsuite %}"{% if not forloop.last %},{% endif %}
         {% endfor %}
         ]);
     </script>
     {% endif %}
 
     {% for file in files %}
-    <script type="text/javascript" src="{% url qunit_test file %}"></script>
+    <script type="text/javascript" src="{% url 'qunit_test' file %}"></script>
     {% endfor %}
 </head>
-<body data-base-url="{% url qunit_test '' %}">
+<body data-base-url="{% url 'qunit_test' '' %}">
     <h1 id="qunit-header">QUnit Test Suite ({{ suite.name|capfirst }})</h1>
     <h2 id="qunit-banner"></h2>
     <div id="qunit-testrunner-toolbar"></div>
     <div id="navigation">
         {% if previous_directory != None %}
-        <a href="{% url qunit_test_overview previous_directory %}">Go up</a>
+        <a href="{% url 'qunit_test_overview' previous_directory %}">Go up</a>
         {% endif %}
 
         {% if subsuites %}
