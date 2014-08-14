@@ -1,6 +1,7 @@
+import json
+
 from django.conf import settings
 from django.shortcuts import render
-from django.utils import simplejson
 
 import os
 
@@ -9,7 +10,7 @@ def load_configuration(path):
     try:
         file = open(os.path.join(path, 'suite.json'), 'r')
         json = file.read()
-        return simplejson.loads(json)
+        return json.loads(json)
     except:
         return {}
 
