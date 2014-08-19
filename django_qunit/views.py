@@ -1,16 +1,16 @@
+# -*- coding: utf-8 -*-
+
 import json
+import os
 
 from django.conf import settings
 from django.shortcuts import render
 
-import os
-
 
 def load_configuration(path):
     try:
-        file = open(os.path.join(path, 'suite.json'), 'r')
-        json = file.read()
-        return json.loads(json)
+        with open(os.path.join(path, 'suite.json'), 'r') as f:
+            return json.loads(f.read())
     except:
         return {}
 
@@ -59,16 +59,16 @@ def get_suite_context(path):
         'files': [os.path.join(path, file) for file in files if file.endswith('js')],
         'previous_directory': previous_directory,
         'qunit_url': settings.QUNIT_URL,
-        'js_url' : settings.QUNIT_JS_URL,
+        'js_url': settings.QUNIT_JS_URL,
         'subsuites': subsuites,
         'suite': suite,
-        'use_composite' : use_composite,
+        'use_composite': use_composite,
     }
 
 
 def run_tests(request, path, template_name='qunit/index.html'):
     suite_context = get_suite_context(path)
-    response =  render(request, template_name, suite_context)
+    response = render(request, template_name, suite_context)
 
     # When used by qunit-composite, test pages are rendered in iFrames
     # If the using site is using the X-Frame-Options header set to 'DENY',
